@@ -40,6 +40,24 @@ export default function AdminDashboard() {
   const [userName, setUserName] = useState<string>("System Admin");
   const navigate = useNavigate();
 
+  // Manual Onboarding State corresponding to SignupPage
+  const [addAccountType, setAddAccountType] = useState<"student" | "company" | "university">("company");
+  const [addName, setAddName] = useState("");
+  const [addEmail, setAddEmail] = useState("");
+  const [addPhoneNumber, setAddPhoneNumber] = useState("");
+  const [addCompanyName, setAddCompanyName] = useState("");
+  const [addKraPin, setAddKraPin] = useState("");
+  const [addCompanyRegNumber, setAddCompanyRegNumber] = useState("");
+  const [addCounty, setAddCounty] = useState("");
+  const [addTown, setAddTown] = useState("");
+  const [addBuilding, setAddBuilding] = useState("");
+  const [addOnlinePresence, setAddOnlinePresence] = useState("");
+  const [addUniversity, setAddUniversity] = useState("");
+  const [addStaffNumber, setAddStaffNumber] = useState("");
+  const [addDepartment, setAddDepartment] = useState("");
+  const [addRegNo, setAddRegNo] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [stats, setStats] = useState({
     universities: 0,
     companies: 0,
@@ -307,43 +325,148 @@ export default function AdminDashboard() {
                     Manual Onboarding
                   </h2>
                   <form onSubmit={handleManualAdd} className="space-y-5">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                          Account Type
-                        </label>
-                        <select
-                          required
-                          className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        >
-                          <option value="company">Company</option>
-                          <option value="university">University</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                          Institution Name
-                        </label>
-                        <input
-                          required
-                          type="text"
-                          className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                          placeholder="Name"
-                        />
-                      </div>
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                        Account Type
+                      </label>
+                      <select
+                        required
+                        value={addAccountType}
+                        onChange={(e) => setAddAccountType(e.target.value as "student" | "company" | "university")}
+                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      >
+                        <option value="student">Student</option>
+                        <option value="company">Company</option>
+                        <option value="university">University</option>
+                      </select>
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                        Primary Contact Email
-                      </label>
-                      <input
-                        required
-                        type="email"
-                        className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        placeholder="admin@domain.com"
-                      />
-                    </div>
+                    {addAccountType === 'student' && (
+                      <>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1.5">Full Name</label>
+                            <input required type="text" value={addName} onChange={(e) => setAddName(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Jane Doe" />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1.5">Email Address</label>
+                            <input required type="email" value={addEmail} onChange={(e) => setAddEmail(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="student@example.com" />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1.5">University</label>
+                            <select required value={addUniversity} onChange={(e) => setAddUniversity(e.target.value)} className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none">
+                              <option value="" disabled>Select your university</option>
+                              <option value="Egerton University">Egerton University</option>
+                              <option value="University of Nairobi">University of Nairobi</option>
+                              <option value="Kenyatta University">Kenyatta University</option>
+                              <option value="Jomo Kenyatta University of Agriculture and Technology">Jomo Kenyatta University of Agriculture and Technology</option>
+                              <option value="Moi University">Moi University</option>
+                              <option value="Strathmore University">Strathmore University</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1.5">Registration Number</label>
+                            <input required type="text" value={addRegNo} onChange={(e) => setAddRegNo(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., S13/03009/24" />
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {addAccountType === 'company' && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">Company Name <span className="text-red-500">*</span></label>
+                          <input required type="text" value={addCompanyName} onChange={(e) => setAddCompanyName(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g. Acme Corp" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">Representative Name <span className="text-red-500">*</span></label>
+                          <input required type="text" value={addName} onChange={(e) => setAddName(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Jane Doe" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">Email Address <span className="text-red-500">*</span></label>
+                          <input required type="email" value={addEmail} onChange={(e) => setAddEmail(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="you@example.com" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">Phone Number <span className="text-red-500">*</span></label>
+                          <input required type="text" value={addPhoneNumber} onChange={(e) => setAddPhoneNumber(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="+254..." />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">KRA PIN <span className="text-red-500">*</span></label>
+                          <input required type="text" value={addKraPin} onChange={(e) => setAddKraPin(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="A000000000X" />
+                        </div>
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">Company Registration Number (CR12/BRS) <span className="text-red-500">*</span></label>
+                          <input required type="text" value={addCompanyRegNumber} onChange={(e) => setAddCompanyRegNumber(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="PVT/..." />
+                        </div>
+                        
+                        <div className="md:col-span-2 mt-2">
+                          <h3 className="text-sm font-bold text-slate-900 border-b border-slate-200 pb-2 mb-3">Physical Location</h3>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">County <span className="text-red-500">*</span></label>
+                          <select required value={addCounty} onChange={(e) => setAddCounty(e.target.value)} className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+                            <option value="" disabled>Select County</option>
+                            <option value="Nairobi">Nairobi</option>
+                            <option value="Mombasa">Mombasa</option>
+                            <option value="Kisumu">Kisumu</option>
+                            <option value="Nakuru">Nakuru</option>
+                            <option value="Uasin Gishu">Uasin Gishu</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">Town / City <span className="text-red-500">*</span></label>
+                          <input required type="text" value={addTown} onChange={(e) => setAddTown(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g. Westlands" />
+                        </div>
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">Building Name / Street / Landmark <span className="text-red-500">*</span></label>
+                          <input required type="text" value={addBuilding} onChange={(e) => setAddBuilding(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g. Posta Plaza, 2nd Floor" />
+                        </div>
+
+                        <div className="md:col-span-2 mt-2">
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">Online Presence <span className="text-slate-400 font-normal">(Optional)</span></label>
+                          <input type="text" value={addOnlinePresence} onChange={(e) => setAddOnlinePresence(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Website or Official Social Media Page" />
+                        </div>
+                      </div>
+                    )}
+
+                    {addAccountType === 'university' && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">Full Name</label>
+                          <input required type="text" value={addName} onChange={(e) => setAddName(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Jane Doe" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">University</label>
+                          <select required value={addUniversity} onChange={(e) => setAddUniversity(e.target.value)} className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+                            <option value="" disabled>Select your university</option>
+                            <option value="Egerton University">Egerton University</option>
+                            <option value="University of Nairobi">University of Nairobi</option>
+                            <option value="Kenyatta University">Kenyatta University</option>
+                            <option value="Jomo Kenyatta University of Agriculture and Technology">Jomo Kenyatta University of Agriculture and Technology</option>
+                            <option value="Moi University">Moi University</option>
+                            <option value="Strathmore University">Strathmore University</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">Work Email</label>
+                          <input required type="email" value={addEmail} onChange={(e) => setAddEmail(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="you@university.edu" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">Employee Staff Number</label>
+                          <input required type="text" value={addStaffNumber} onChange={(e) => setAddStaffNumber(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g. EMP-12345" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">Department / Faculty</label>
+                          <input required type="text" value={addDepartment} onChange={(e) => setAddDepartment(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g. Computer Science" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-1.5">Phone Number</label>
+                          <input required type="text" value={addPhoneNumber} onChange={(e) => setAddPhoneNumber(e.target.value)} className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="+254..." />
+                        </div>
+                      </div>
+                    )}
 
                     <div className="pt-4 border-t border-slate-100 flex justify-end gap-3">
                       <button
@@ -355,9 +478,10 @@ export default function AdminDashboard() {
                       </button>
                       <button
                         type="submit"
-                        className="px-5 py-2 bg-navy text-white text-sm font-medium rounded-lg hover:bg-opacity-90 transition-colors"
+                        disabled={isSubmitting}
+                        className="px-5 py-2 bg-navy text-white text-sm font-medium rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50"
                       >
-                        Generate & Send Invite
+                        {isSubmitting ? "Processing..." : "Generate & Send Invite"}
                       </button>
                     </div>
                   </form>

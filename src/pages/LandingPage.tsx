@@ -37,9 +37,8 @@ export default function LandingPage() {
       {/* Navigation */}
       <header className="px-6 py-4 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-2xl font-bold tracking-tight text-navy">
-            <BookOpen className="w-8 h-8 text-blue-600" />
-            <span>Internova</span>
+          <Link to="/" className="flex items-center gap-2">
+            <img src="/logo.png" alt="Internova Logo" className="h-10 w-auto object-contain" />
           </Link>
         </div>
       </header>

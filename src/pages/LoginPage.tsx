@@ -52,8 +52,13 @@ export default function LoginPage() {
         return;
       }
 
-      // Check if user is approved
-      if ((role === 'company' || role === 'admin') && data.user?.user_metadata?.approved === false) {
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('approved')
+        .eq('id', data.user.id)
+        .single();
+        
+      if (profile?.approved === false) {
         setErrorMsg('Your account is pending administrator approval.');
         await supabase.auth.signOut();
         setIsSubmitting(false);
@@ -88,9 +93,8 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 selection:bg-blue-100 selection:text-blue-900">
       <header className="px-6 py-8">
-        <Link to="/" className="flex items-center gap-2 text-xl font-bold tracking-tight text-navy w-fit">
-          <BookOpen className="w-6 h-6 text-blue-600" />
-          <span>Internova</span>
+        <Link to="/" className="flex items-center gap-2 w-fit">
+          <img src="/logo.png" alt="Internova Logo" className="h-8 w-auto object-contain" />
         </Link>
       </header>
 
