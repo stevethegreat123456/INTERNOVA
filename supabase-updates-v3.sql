@@ -1,0 +1,3 @@
+ALTER TABLE opportunities
+ADD COLUMN max_positions INTEGER DEFAULT 1,
+ADD COLUMN start_date DATE DEFAULT CURRENT_DATE;

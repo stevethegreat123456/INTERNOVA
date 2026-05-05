@@ -1,0 +1,3 @@
+ALTER TABLE opportunities
+ADD COLUMN is_paid BOOLEAN DEFAULT false,
+ADD COLUMN tags TEXT[] DEFAULT '{}';
